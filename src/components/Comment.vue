@@ -6,7 +6,7 @@
       md:px-6
       md:py-5
       bg-white
-      w-1/3
+      w-1/4
       m-auto
       border
       items-center
