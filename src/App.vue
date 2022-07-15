@@ -1,22 +1,25 @@
 <template>
   <div id="app" class="md:w-screen min-h-screen md:h-screen">
     <!-- <Game /> -->
-    <LeaderBoard />
+    <!-- <LeaderBoard /> -->
     <!-- <Login class="m-auto" /> -->
+    <Comment />
   </div>
 </template>
 
 <script>
 // import Game from "./components/Game.vue";
-import LeaderBoard from "./components/LeaderBoard.vue";
+// import LeaderBoard from "./components/LeaderBoard.vue";
 // import Login from "./components/Login.vue";
+import Comment from "./components/Comment.vue";
 
 export default {
   name: "App",
   components: {
     // Game,
     // Login,
-    LeaderBoard,
+    // LeaderBoard,
+    Comment,
   },
 };
 </script>
