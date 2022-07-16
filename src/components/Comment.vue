@@ -95,6 +95,17 @@ export default {
       ],
     };
   },
+  created() {
+    this.getComment();
+  },
+  methods: {
+    getComment() {
+      console.log("get comments");
+    },
+    postComment(comment) {
+      console.log(comment);
+    },
+  },
 };
 </script>
 <style scoped>

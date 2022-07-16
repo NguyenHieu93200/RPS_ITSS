@@ -73,6 +73,14 @@ export default {
       ],
     };
   },
+  created() {
+    this.getRankings();
+  },
+  methods: {
+    getRankings() {
+      console.log("getRankings");
+    },
+  },
 };
 </script>
 <style scoped>

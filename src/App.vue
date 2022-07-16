@@ -27,7 +27,8 @@
       <LeaderBoard v-if="tab === 'ranking'" />
       <Comment v-if="tab === 'comment'" />
       <!-- <Login class="m-auto" v-if="tab === 'user'" /> -->
-      <UserList class="m-auto" v-if="tab === 'user'" />
+      <!-- <UserList class="m-auto" v-if="tab === 'user'" /> -->
+      <UserProfile class="m-auto" v-if="tab === 'user'" />
     </div>
   </div>
 </template>
@@ -37,7 +38,8 @@ import Game from "./components/Game.vue";
 import LeaderBoard from "./components/LeaderBoard.vue";
 // import Login from "./components/Login.vue";
 import Comment from "./components/Comment.vue";
-import UserList from "./components/UserList.vue";
+// import UserList from "./components/UserList.vue";
+import UserProfile from "./components/UserProfile.vue";
 
 export default {
   name: "App",
@@ -46,7 +48,7 @@ export default {
     // Login,
     LeaderBoard,
     Comment,
-    UserList
+    UserProfile,
   },
   data() {
     return {
