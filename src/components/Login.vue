@@ -1,16 +1,5 @@
 <template>
   <div class="form-structor">
-    <div class="signup" :class="signUp ? 'slide-up' : ''">
-      <h2 class="form-title" id="signup" @click="toLogin">
-        <span>or</span>Sign up
-      </h2>
-      <div class="form-holder">
-        <input type="text" class="input" placeholder="Name" />
-        <input type="email" class="input" placeholder="Email" />
-        <input type="password" class="input" placeholder="Password" />
-      </div>
-      <button class="submit-btn">Sign up</button>
-    </div>
     <div class="login" :class="signUp ? '' : 'slide-up'">
       <div class="center">
         <h2 class="form-title" id="login" @click="toSignUp">
@@ -23,13 +12,24 @@
         <button class="submit-btn">Log in</button>
       </div>
     </div>
+    <div class="signup" :class="signUp ? 'slide-up' : ''">
+      <h2 class="form-title" id="signup" @click="toLogin">
+        <span>or</span>Sign up
+      </h2>
+      <div class="form-holder">
+        <input type="text" class="input" placeholder="Name" />
+        <input type="email" class="input" placeholder="Email" />
+        <input type="password" class="input" placeholder="Password" />
+      </div>
+      <button class="submit-btn">Sign up</button>
+    </div>
   </div>
 </template>
 <script>
 export default {
   data() {
     return {
-      signUp: false,
+      signUp: true,
     };
   },
   methods: {
@@ -60,8 +60,8 @@ body {
 .form-structor {
   background-color: #222;
   border-radius: 15px;
-  height: 550px;
-  width: 350px;
+  height: 80vh;
+  width: 450px;
   position: relative;
   overflow: hidden;
 
