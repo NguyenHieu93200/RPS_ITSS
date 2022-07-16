@@ -1,14 +1,31 @@
 <template>
   <div id="app" class="md:w-screen min-h-screen md:h-screen">
     <div class="topnav">
-      <a :class="{active: isActive['game']}" @click="changeTab('game', $event)">じゃんけんぽん</a>
-      <a :class="{active: isActive['comment']}" @click="changeTab('comment', $event)">コメント</a>
-      <a :class="{active: isActive['ranking']}" @click="changeTab('ranking', $event)">ランキング</a>
-      <a :class="{active: isActive['user']}" @click="changeTab('user', $event)">ユーザー</a>
+      <a
+        :class="{ active: isActive['game'] }"
+        @click="changeTab('game', $event)"
+        >じゃんけんぽん</a
+      >
+      <a
+        :class="{ active: isActive['comment'] }"
+        @click="changeTab('comment', $event)"
+        >コメント</a
+      >
+      <a
+        :class="{ active: isActive['ranking'] }"
+        @click="changeTab('ranking', $event)"
+        >ランキング</a
+      >
+      <a
+        :class="{ active: isActive['user'] }"
+        @click="changeTab('user', $event)"
+        >ユーザー</a
+      >
     </div>
     <div class="main-content">
       <Game v-if="tab === 'game'" />
       <LeaderBoard v-if="tab === 'ranking'" />
+      <Comment v-if="tab === 'comment'" />
       <Login class="m-auto" v-if="tab === 'user'" />
     </div>
   </div>
@@ -18,6 +35,7 @@
 import Game from "./components/Game.vue";
 import LeaderBoard from "./components/LeaderBoard.vue";
 import Login from "./components/Login.vue";
+import Comment from "./components/Comment.vue";
 
 export default {
   name: "App",
@@ -25,27 +43,28 @@ export default {
     Game,
     Login,
     LeaderBoard,
+    Comment,
   },
   data() {
     return {
-      tab: 'game', 
+      tab: "game",
       isActive: {
-        'game': true,
-        'comment': false,
-        'ranking': false,
-        'user': false
-      }
-    }
+        game: true,
+        comment: false,
+        ranking: false,
+        user: false,
+      },
+    };
   },
   methods: {
     changeTab(tabName) {
       Object.entries(this.isActive).map(([key]) => {
         this.isActive[key] = false;
-      })
+      });
       this.isActive[tabName] = !this.isActive[tabName];
-      return this.tab = tabName
-    }
-  }
+      return (this.tab = tabName);
+    },
+  },
 };
 </script>
 
@@ -84,7 +103,7 @@ body {
 
 /* Add a color to the active/current link */
 .topnav a.active {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   color: black;
 }
 .main-content {
