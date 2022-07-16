@@ -3,6 +3,8 @@ import App from "./App.vue";
 import store from "./store";
 import "./index.css";
 
+import BootstrapVue from "bootstrap-vue"
+
 /* import the fontawesome core */
 import { library } from "@fortawesome/fontawesome-svg-core";
 
@@ -19,6 +21,8 @@ library.add(faPaperPlane);
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 Vue.config.productionTip = false;
+
+Vue.use(BootstrapVue);
 
 new Vue({
   store,
