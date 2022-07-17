@@ -17,93 +17,106 @@
     <h1 class="pb-3 mb-8 text-center text-5xl border-b-2">コメント</h1>
     <!-- content -->
     <div class="overflow-auto max-h-96">
-      <div v-for="player in players" :key="player.id" class="flex mt-4">
+      <div v-for="comment in comments" :key="comment.id" class="flex mt-4">
         <img src="../assets/avatar.png" class="w-10 h-10 rounded-full mr-4" />
         <div class="comment drop-shadow-md shadow-lg rounded-br-lg p-3 w-4/5">
           <div class="flex justify-between">
-            <div>Name Player</div>
-            <div id="timestamp">12:00:00 15 Jul 2022</div>
+            <div>{{ comment.user }}</div>
+            <div id="timestamp">
+              {{ $dayjs(comment.created_at).format("MM-DD-YYYY H:mm A") }}
+            </div>
           </div>
-          <div class="break-words comment-content">This is a comment</div>
+          <div class="flex justify-between">
+            <div class="break-words comment-content">{{ comment.content }}</div>
+            <font-awesome-icon
+              v-if="getUser === comment.user_id"
+              icon="fa-solid fa-trash-can"
+              class="cursor-pointer"
+              @click="deleteComment(comment.id)"
+            />
+          </div>
         </div>
       </div>
     </div>
     <div class="form-holder mt-8 border-2 py-2">
       <input
+        v-model="newComment"
         type="text"
         class="input w-10/12 border-r-2"
         placeholder="コメント入力"
       />
-      <font-awesome-icon icon="fa-solid fa-paper-plane" class="icon w-2/12" />
+      <font-awesome-icon
+        icon="fa-solid fa-paper-plane"
+        class="icon w-2/12 cursor-pointer"
+        @click="postComment"
+      />
     </div>
   </div>
 </template>
 <script>
+import axios from "axios";
+import { mapGetters } from "vuex";
+
 export default {
   data() {
     return {
       showModal: false,
-      players: [
-        {
-          id: 1,
-          name: "Hieu",
-          image: "../assets/avatar.png",
-          score: "9",
-        },
-        {
-          id: 3,
-          name: "Vi",
-          image: "../assets/avatar.png",
-          score: "10",
-        },
-        {
-          id: 4,
-          name: "Hoang",
-          image: "../assets/avatar.png",
-          score: "10",
-        },
-        {
-          id: 2,
-          name: "Duc",
-          image: "../assets/avatar.png",
-          score: "6",
-        },
-        {
-          id: 5,
-          name: "Tuan",
-          image: "../assets/avatar.png",
-          score: "6",
-        },
-        {
-          id: 10,
-          name: "Tuan",
-          image: "../assets/avatar.png",
-          score: "6",
-        },
-        {
-          id: 11,
-          name: "Tuan",
-          image: "../assets/avatar.png",
-          score: "6",
-        },
-        {
-          id: 12,
-          name: "Tuan",
-          image: "../assets/avatar.png",
-          score: "6",
-        },
-      ],
+      comments: null,
+      newComment: null,
     };
   },
   created() {
     this.getComment();
   },
+  computed: {
+    ...mapGetters(["getToken", "getUser"]),
+  },
   methods: {
     getComment() {
-      console.log("get comments");
+      const config = {
+        headers: { Authorization: `Bearer ${this.getToken}` },
+      };
+      axios
+        .get(`http://127.0.0.1:8000/api/v1/comment`, config)
+        .then((response) => {
+          this.comments = response.data;
+        })
+        .catch((e) => {
+          this.errors.push(e);
+        });
     },
-    postComment(comment) {
-      console.log(comment);
+    postComment() {
+      const config = {
+        headers: { Authorization: `Bearer ${this.getToken}` },
+      };
+      const body = {
+        content: this.newComment,
+      };
+      axios
+        .post(`http://127.0.0.1:8000/api/v1/comment`, body, config)
+        .then(() => {
+          this.newComment = "";
+          this.getComment();
+        })
+        .catch((e) => {
+          this.errors.push(e);
+        });
+    },
+    deleteComment(commentId) {
+      const config = {
+        headers: { Authorization: `Bearer ${this.getToken}` },
+      };
+      const body = {
+        id: commentId,
+      };
+      axios
+        .delete(`http://127.0.0.1:8000/api/v1/comment/delete`, body, config)
+        .then(() => {
+          this.getComment();
+        })
+        .catch((e) => {
+          this.errors.push(e);
+        });
     },
   },
 };

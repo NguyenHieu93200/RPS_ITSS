@@ -12,8 +12,14 @@
       items-center
       rounded-lg
       md:rounded-2xl
+      relative
     "
   >
+    <b-button
+      class="border-2 text-xl p-4 save-btn absolute top-3 right-3"
+      @click="logOut"
+      >Log out</b-button
+    >
     <div class="text-2xl text-center">User Profile</div>
     <div>
       <img
@@ -44,6 +50,9 @@
 </template>
 
 <script>
+import axios from "axios";
+import { mapGetters } from "vuex";
+
 export default {
   data() {
     return {
@@ -51,7 +60,9 @@ export default {
       name: "hieu",
     };
   },
-
+  computed: {
+    ...mapGetters(["getToken"]),
+  },
   methods: {
     UploadAvatar() {
       const input = this.$refs.fileInputAvatar;
@@ -62,6 +73,18 @@ export default {
     },
     saveUserInfo() {
       console.log("save");
+    },
+    logOut() {
+      const config = {
+        headers: { Authorization: `Bearer ${this.getToken}` },
+      };
+      const body = {};
+      axios
+        .post(`http://127.0.0.1:8000/api/v1/auth/logout`, body, config)
+        .then(this.$router.push("/login"))
+        .catch((e) => {
+          this.errors.push(e);
+        });
     },
   },
 };

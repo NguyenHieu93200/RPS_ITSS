@@ -1,43 +1,108 @@
 <template>
-  <div class="form-structor">
-    <div class="login" :class="signUp ? '' : 'slide-up'">
+  <div class="form-structor m-auto">
+    <div class="login" :class="signUpChange ? '' : 'slide-up'">
       <div class="center">
         <h2 class="form-title" id="login" @click="toSignUp">
           <span>or</span>Log in
         </h2>
         <div class="form-holder">
-          <input type="email" class="input" placeholder="Email" />
-          <input type="password" class="input" placeholder="Password" />
+          <input
+            v-model="email"
+            type="email"
+            class="input"
+            placeholder="Email"
+          />
+          <input
+            v-model="password"
+            type="password"
+            class="input"
+            placeholder="Password"
+          />
         </div>
-        <button class="submit-btn">Log in</button>
+        <button class="submit-btn" @click="Login">Log in</button>
       </div>
     </div>
-    <div class="signup" :class="signUp ? 'slide-up' : ''">
+    <div class="signup" :class="signUpChange ? 'slide-up' : ''">
       <h2 class="form-title" id="signup" @click="toLogin">
         <span>or</span>Sign up
       </h2>
       <div class="form-holder">
-        <input type="text" class="input" placeholder="Name" />
-        <input type="email" class="input" placeholder="Email" />
-        <input type="password" class="input" placeholder="Password" />
+        <input v-model="name" type="text" class="input" placeholder="Name" />
+        <input v-model="email" type="email" class="input" placeholder="Email" />
+        <input
+          v-model="password"
+          type="password"
+          class="input"
+          placeholder="Password"
+        />
+        <input
+          v-model="confirmPassword"
+          type="password"
+          class="input"
+          placeholder="Confirm password"
+        />
       </div>
-      <button class="submit-btn">Sign up</button>
+      <button class="submit-btn" @click="signUp">Sign up</button>
+      <b-toast id="register-success" static> Register successfully </b-toast>
     </div>
   </div>
 </template>
 <script>
+import axios from "axios";
+import { mapGetters } from "vuex";
+
 export default {
   data() {
     return {
-      signUp: true,
+      signUpChange: true,
+      email: null,
+      password: null,
+      name: null,
+      confirmPassword: null,
     };
+  },
+  computed: {
+    ...mapGetters(["getToken"]),
+  },
+  created() {
+    if (this.getToken) this.$router.push("./");
   },
   methods: {
     toLogin() {
-      this.signUp = false;
+      this.signUpChange = false;
     },
     toSignUp() {
-      this.signUp = true;
+      this.signUpChange = true;
+    },
+    Login() {
+      axios
+        .post(`http://127.0.0.1:8000/api/v1/auth/login`, {
+          email: this.email,
+          password: this.password,
+        })
+        .then((response) => {
+          this.$store.dispatch("setToken", response.data.data);
+          this.$router.push("./");
+        })
+        .catch((e) => {
+          this.errors.push(e);
+        });
+    },
+    signUp() {
+      axios
+        .post(`http://127.0.0.1:8000/api/v1/auth/register`, {
+          name: this.name,
+          email: this.email,
+          password: this.password,
+          password_confirmation: this.confirmPassword,
+        })
+        .then(() => {
+          this.$bvToast.show("register-success");
+          this.$router.push("./");
+        })
+        .catch((e) => {
+          this.errors.push(e);
+        });
     },
   },
 };

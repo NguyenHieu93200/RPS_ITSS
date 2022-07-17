@@ -3,7 +3,8 @@
     class="
       px-4
       py-3
-      md:px-6 md:py-5
+      md:px-6
+      md:py-5
       bg-white
       w-1/2
       m-auto

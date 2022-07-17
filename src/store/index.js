@@ -5,6 +5,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    token: null,
+    userId: null,
     hands: ["paper", "rock", "scissors"],
     playerPick: "",
     housePick: "",
@@ -18,6 +20,12 @@ export default new Vuex.Store({
   },
 
   getters: {
+    getToken: (state) => {
+      return state.token;
+    },
+    getUser: (state) => {
+      return state.userId;
+    },
     getPlayerHand: (state) => {
       return state.playerPick;
     },
@@ -48,6 +56,10 @@ export default new Vuex.Store({
   },
 
   mutations: {
+    SETTOKEN: (state, payload) => {
+      state.token = payload.token;
+      state.userId = payload.user_id;
+    },
     SETHAND: (state, payload) => {
       state.playerPick = payload;
       state.inSession = true;
@@ -115,6 +127,9 @@ export default new Vuex.Store({
   },
 
   actions: {
+    setToken: (context, payload) => {
+      context.commit("SETTOKEN", payload);
+    },
     setHand: (context, payload) => {
       context.commit("SETHAND", payload);
       setTimeout(() => {
