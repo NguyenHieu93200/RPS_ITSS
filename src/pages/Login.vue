@@ -82,7 +82,8 @@ export default {
         })
         .then((response) => {
           this.$store.dispatch("setToken", response.data.data);
-          this.$router.push("./");
+          if (response.data.data.role === 2) this.$router.push("./");
+          else this.$router.push("./admin");
         })
         .catch((e) => {
           this.errors.push(e);
