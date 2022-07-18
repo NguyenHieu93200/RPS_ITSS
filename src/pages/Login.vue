@@ -49,7 +49,6 @@
 </template>
 <script>
 import axios from "axios";
-import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -61,11 +60,8 @@ export default {
       confirmPassword: null,
     };
   },
-  computed: {
-    ...mapGetters(["getToken"]),
-  },
   created() {
-    if (this.getToken) this.$router.push("./");
+    if (localStorage.getItem("token")) this.$router.push("./");
   },
   methods: {
     toLogin() {
@@ -81,7 +77,8 @@ export default {
           password: this.password,
         })
         .then((response) => {
-          this.$store.dispatch("setToken", response.data.data);
+          localStorage.setItem("token", response.data.data.token);
+          localStorage.setItem("userId", response.data.data.user_id);
           if (response.data.data.role === 2) this.$router.push("./");
           else this.$router.push("./admin");
         })

@@ -51,7 +51,6 @@
 
 <script>
 import axios from "axios";
-import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -59,9 +58,6 @@ export default {
       email: "hieu@gmail.com",
       name: "hieu",
     };
-  },
-  computed: {
-    ...mapGetters(["getToken"]),
   },
   methods: {
     UploadAvatar() {
@@ -76,7 +72,7 @@ export default {
     },
     logOut() {
       const config = {
-        headers: { Authorization: `Bearer ${this.getToken}` },
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       };
       const body = {};
       axios

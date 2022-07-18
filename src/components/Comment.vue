@@ -29,7 +29,7 @@
           <div class="flex justify-between">
             <div class="break-words comment-content">{{ comment.content }}</div>
             <font-awesome-icon
-              v-if="getUser === comment.user_id"
+              v-if="userId === comment.user_id"
               icon="fa-solid fa-trash-can"
               class="cursor-pointer"
               @click="deleteComment(comment.id)"
@@ -55,7 +55,6 @@
 </template>
 <script>
 import axios from "axios";
-import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -63,18 +62,16 @@ export default {
       showModal: false,
       comments: null,
       newComment: null,
+      userId: localStorage.getItem("userId"),
     };
   },
   created() {
     this.getComment();
   },
-  computed: {
-    ...mapGetters(["getToken", "getUser"]),
-  },
   methods: {
     getComment() {
       const config = {
-        headers: { Authorization: `Bearer ${this.getToken}` },
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       };
       axios
         .get(`http://127.0.0.1:8000/api/v1/comment`, config)
@@ -87,7 +84,7 @@ export default {
     },
     postComment() {
       const config = {
-        headers: { Authorization: `Bearer ${this.getToken}` },
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       };
       const body = {
         content: this.newComment,
@@ -104,7 +101,7 @@ export default {
     },
     deleteComment(commentId) {
       const config = {
-        headers: { Authorization: `Bearer ${this.getToken}` },
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       };
       const body = {
         id: commentId,

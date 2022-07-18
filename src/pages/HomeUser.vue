@@ -36,7 +36,6 @@ import Game from "../components/Game.vue";
 import LeaderBoard from "../components/LeaderBoard.vue";
 import Comment from "../components/Comment.vue";
 import UserProfile from "../components/UserProfile.vue";
-import { mapGetters } from "vuex";
 
 export default {
   components: {
@@ -56,11 +55,8 @@ export default {
       },
     };
   },
-  computed: {
-    ...mapGetters(["getToken"]),
-  },
   created() {
-    if (!this.getToken) this.$router.push("/login");
+    if (!localStorage.getItem("token")) this.$router.push("/login");
   },
   methods: {
     changeTab(tabName) {
