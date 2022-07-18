@@ -60,9 +60,6 @@ export default {
       confirmPassword: null,
     };
   },
-  created() {
-    if (localStorage.getItem("token")) this.$router.push("./");
-  },
   methods: {
     toLogin() {
       this.signUpChange = false;

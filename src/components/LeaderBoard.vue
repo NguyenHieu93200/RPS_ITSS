@@ -35,42 +35,13 @@
   </div>
 </template>
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
       showModal: false,
-      players: [
-        {
-          id: 1,
-          name: "Hieu",
-          image: "../assets/avatar.png",
-          score: "9",
-        },
-        {
-          id: 3,
-          name: "Vi",
-          image: "../assets/avatar.png",
-          score: "10",
-        },
-        {
-          id: 4,
-          name: "Hoang",
-          image: "../assets/avatar.png",
-          score: "10",
-        },
-        {
-          id: 2,
-          name: "Duc",
-          image: "../assets/avatar.png",
-          score: "6",
-        },
-        {
-          id: 5,
-          name: "Tuan",
-          image: "../assets/avatar.png",
-          score: "6",
-        },
-      ],
+      players: null,
     };
   },
   created() {
@@ -78,7 +49,17 @@ export default {
   },
   methods: {
     getRankings() {
-      console.log("getRankings");
+      const config = {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      };
+      axios
+        .get(`http://127.0.0.1:8000/api/v1/rank/list`, config)
+        .then((response) => {
+          this.players = response.data.data;
+        })
+        .catch((e) => {
+          this.errors.push(e);
+        });
     },
   },
 };

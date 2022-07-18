@@ -19,7 +19,16 @@
     </h1>
     <button
       @click="replayGame"
-      class="bg-white text-lg score uppercase hover:text-red-400 px-10 py-2"
+      class="
+        bg-white
+        text-lg
+        score
+        uppercase
+        hover:text-red-400
+        px-10
+        py-2
+        ml-12
+      "
     >
       Replay
     </button>
@@ -27,6 +36,7 @@
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
+import axios from "axios";
 
 export default {
   data() {
@@ -37,8 +47,27 @@ export default {
   computed: {
     ...mapGetters(["getScore"]),
   },
+  created() {
+    this.updateScore();
+  },
   methods: {
     ...mapActions(["replayGame"]),
+    updateScore() {
+      const config = {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      };
+      const body = {
+        score: this.getScore,
+      };
+      axios
+        .put(`http://127.0.0.1:8000/api/v1/score/store`, body, config)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((e) => {
+          this.errors.push(e);
+        });
+    },
   },
 };
 </script>

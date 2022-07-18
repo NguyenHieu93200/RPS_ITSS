@@ -29,7 +29,7 @@
           <div class="flex justify-between">
             <div class="break-words comment-content">{{ comment.content }}</div>
             <font-awesome-icon
-              v-if="userId === comment.user_id"
+              v-if="userId == comment.user_id"
               icon="fa-solid fa-trash-can"
               class="cursor-pointer"
               @click="deleteComment(comment.id)"
@@ -62,10 +62,13 @@ export default {
       showModal: false,
       comments: null,
       newComment: null,
-      userId: localStorage.getItem("userId"),
+      userId: null,
     };
   },
   created() {
+    if (localStorage.getItem("userId")) {
+      this.userId = localStorage.getItem("userId");
+    }
     this.getComment();
   },
   methods: {
@@ -103,11 +106,11 @@ export default {
       const config = {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       };
-      const body = {
-        id: commentId,
-      };
       axios
-        .delete(`http://127.0.0.1:8000/api/v1/comment/delete`, body, config)
+        .delete(
+          `http://127.0.0.1:8000/api/v1/comment/delete/${commentId}`,
+          config
+        )
         .then(() => {
           this.getComment();
         })
