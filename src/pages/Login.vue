@@ -76,8 +76,8 @@ export default {
           if (response.data.role === 2) this.$router.push("./");
           else this.$router.push("./admin");
         })
-        .catch((e) => {
-          this.errors.push(e);
+        .catch(() => {
+          this.$message.error('メールアドレスまたはパスワードが正しくない');
         });
     },
     signUp() {
