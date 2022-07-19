@@ -15,6 +15,7 @@
     "
   >
     <el-table
+      v-loading="loading"
       :data="items.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
       style="width: 100%">
       <el-table-column
@@ -75,29 +76,25 @@ export default {
     dark: false,
     fixed: true,
     footClone: false,
-    search: ''
+    search: '',
+    loading: false
   }),
 
   methods: {
     async handleDelete(index, item) {
-      console.log(index, item)
       this.$confirm('これにより、ファイルが完全に削除されます。 継続する？', 'Warning', {
           confirmButtonText: 'OK',
           cancelButtonText: 'Cancel',
           type: 'warning'
-      }).then(async() => {
-           const res = await deleteUser(item.id)
-        if (res) {
+      }).then(async () => {
+        const res = await deleteUser(item.id)
+            if (res) {
               this.items.splice(index,1)
               this.$message({
                 message: '正常に削除されました。',
                 type: 'success'
               });
             }
-          this.$message({
-            type: 'success',
-            message: '正常に削除されました。'
-          });
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -107,8 +104,10 @@ export default {
     }
   },
   async created() {
+    this.loading = true
     const res = await getUsers()
     this.items = res.data
+    this.loading = false
   }
 };
 </script>

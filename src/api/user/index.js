@@ -27,7 +27,10 @@ export async function getUsers() {
 export async function deleteUser(id) {
     try {
         const res = await axiosInstance.delete(`/user/delete/${id}`)
-        return res.data
+        return {
+            ...res.data,
+            status: 'success'
+        }
     } catch (error) {
         return {
             "result": 0,

@@ -15,6 +15,8 @@
     "
   >
     <h1 class="pb-3 mb-8 text-center text-5xl border-b-2">Leaderboard</h1>
+    <el-input placeholder="名前で検索" v-model="search"></el-input>
+
     <!-- content -->
     <div
       v-for="(player, index) in players"
@@ -41,22 +43,25 @@ export default {
   data() {
     return {
       showModal: false,
-      players: null,
+      // players: [],
+      search: '',
+      data: []
     };
   },
-  created() {
-    this.getRankings();
+  async created() {
+    const res = await getRankList()
+    this.data = res.data.filter(data => data.user).map(data => {
+      return {
+        ...data,
+        name: data.user.name
+      }
+    })
+    console.log(this.data)
   },
-  methods: {
-    getRankings() {
-      getRankList()
-        .then((response) => {
-          this.players = response.data;
-        })
-        .catch((e) => {
-          this.errors.push(e);
-        });
-    },
+  computed: {
+    players() {
+      return this.data.filter(data => !this.search || data.name.toLowerCase().includes(this.search.toLowerCase()))
+    }
   },
 };
 </script>
