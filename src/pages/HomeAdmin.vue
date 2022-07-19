@@ -19,6 +19,11 @@
       <a
         :class="{ active: isActive['user'] }"
         @click="changeTab('user', $event)"
+        >ユーザー管理</a
+      >
+      <a
+        :class="{ active: isActive['userInfo'] }"
+        @click="changeTab('userInfo', $event)"
         >ユーザー</a
       >
     </div>
@@ -27,6 +32,7 @@
       <LeaderBoard v-if="tab === 'ranking'" />
       <Comment v-if="tab === 'comment'" />
       <UserList class="m-auto" v-if="tab === 'user'" />
+      <UserProfile class="m-auto" v-if="tab === 'userInfo'" />
     </div>
   </div>
 </template>
@@ -36,6 +42,7 @@ import Game from "../components/Game.vue";
 import LeaderBoard from "../components/LeaderBoard.vue";
 import Comment from "../components/Comment.vue";
 import UserList from "../components/UserList.vue";
+import UserProfile from "../components/UserProfile.vue";
 
 export default {
   components: {
@@ -43,7 +50,8 @@ export default {
     LeaderBoard,
     Comment,
     UserList,
-  },
+    UserProfile
+},
   data() {
     return {
       tab: "game",
@@ -52,6 +60,7 @@ export default {
         comment: false,
         ranking: false,
         user: false,
+        userInfo: false
       },
     };
   },
@@ -85,7 +94,7 @@ body {
 
 /* Style the links inside the navigation bar */
 .topnav a {
-  width: 25%;
+  width: 20%;
   float: left;
   color: #f2f2f2;
   text-align: center;

@@ -15,6 +15,8 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faPaperPlane, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 import router from "./router";
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 
 /* add icons to the library */
 library.add(faPaperPlane, faTrashCan);
@@ -27,7 +29,7 @@ Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
 
 import Dayjs from "vue-dayjs";
-
+Vue.use(ElementUI);
 Vue.use(Dayjs, {
   lang: "en",
   filters: {

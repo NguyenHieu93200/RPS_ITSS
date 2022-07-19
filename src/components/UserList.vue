@@ -14,78 +14,59 @@
       md:rounded-2xl
     "
   >
-    <b-table :items="items" :fields="fields" responsive table-class="w-full">
-      <template #cell(action)="row">
-        <b-button
-          size="sm"
-          @click="info(row.item, row.index, $event.target)"
-          class="mr-1"
-          variant="danger"
-        >
-          削除
-        </b-button>
-      </template>
-    </b-table>
+    <el-table
+      :data="items.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
+      style="width: 100%">
+      <el-table-column
+        label="ID"
+        prop="id">
+      </el-table-column>
+      <el-table-column
+        label="名前"
+        prop="name">
+      </el-table-column>
+      <el-table-column
+        label="メールアドレス"
+        prop="mail">
+      </el-table-column>
+      <el-table-column
+        sortable
+        label="スコア"
+        prop="score">
+      </el-table-column>
+      <el-table-column
+        sortable
+        label="ランキング"
+        prop="ranking">
+      </el-table-column>
+      <el-table-column
+        align="right">
+        <template slot="header" slot-scope="scope">
+          <el-input
+            v-model="search"
+            size="mini"
+            :scope="scope"
+            placeholder="Type to search"/>
+        </template>
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="danger"
+            @click="handleDelete(scope.$index, scope.row)">削除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 
 <script>
+import { getUsers,deleteUser } from '../api/user';
 export default {
   data: () => ({
     heading: "Regular Tables",
     subheading: "Tables are the backbone of almost all web applications.",
     icon: "pe-7s-drawer icon-gradient bg-happy-itmeo",
-
-    fields: [
-      {
-        key: "id",
-        label: "ID",
-        sortable: true,
-        sortDirection: "desc",
-        class: "text-center",
-      },
-      { key: "name", label: "名前", sortable: true, class: "text-center" },
-      {
-        key: "mail",
-        label: "メールアドレス",
-        sortable: true,
-        class: "text-center",
-      },
-      { key: "score", label: "スコア", sortable: true, class: "text-center" },
-      {
-        key: "ranking",
-        label: "ランキング",
-        sortable: true,
-        class: "text-center",
-      },
-      { key: "action", label: "" },
-    ],
-    items: [
-      {
-        id: 1,
-        name: "Dickerson",
-        mail: "abc@gmail.com",
-        score: "100",
-        ranking: "1",
-        action: "",
-      },
-      {
-        id: 2,
-        name: "Larsen",
-        mail: "hieu123@gmail.com",
-        score: "100",
-        ranking: "2",
-        action: "",
-      },
-      {
-        id: 3,
-        name: "Geneva",
-        mail: "minhngu@gmail.com",
-        score: "100",
-        ranking: "4",
-        action: "",
-      },
-    ],
+    items: [],
     striped: true,
     bordered: false,
     outlined: false,
@@ -94,9 +75,41 @@ export default {
     dark: false,
     fixed: true,
     footClone: false,
+    search: ''
   }),
 
-  methods: {},
+  methods: {
+    async handleDelete(index, item) {
+      console.log(index, item)
+      this.$confirm('これにより、ファイルが完全に削除されます。 継続する？', 'Warning', {
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
+          type: 'warning'
+      }).then(async() => {
+           const res = await deleteUser(item.id)
+        if (res) {
+              this.items.splice(index,1)
+              this.$message({
+                message: '正常に削除されました。',
+                type: 'success'
+              });
+            }
+          this.$message({
+            type: 'success',
+            message: '正常に削除されました。'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '削除がキャンセルされました'
+          });          
+        });
+    }
+  },
+  async created() {
+    const res = await getUsers()
+    this.items = res.data
+  }
 };
 </script>
 <style lang="css">
