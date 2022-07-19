@@ -48,7 +48,7 @@
   </div>
 </template>
 <script>
-import axios from "axios";
+import { login, register } from '../api/authentication';
 
 export default {
   data() {
@@ -68,15 +68,12 @@ export default {
       this.signUpChange = true;
     },
     Login() {
-      axios
-        .post(`http://127.0.0.1:8000/api/v1/auth/login`, {
-          email: this.email,
-          password: this.password,
-        })
+      login(this.email, this.password)
         .then((response) => {
-          localStorage.setItem("token", response.data.data.token);
-          localStorage.setItem("userId", response.data.data.user_id);
-          if (response.data.data.role === 2) this.$router.push("./");
+          console.log(response)
+          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("userId", response.data.user_id);
+          if (response.data.role === 2) this.$router.push("./");
           else this.$router.push("./admin");
         })
         .catch((e) => {
@@ -84,14 +81,9 @@ export default {
         });
     },
     signUp() {
-      axios
-        .post(`http://127.0.0.1:8000/api/v1/auth/register`, {
-          name: this.name,
-          email: this.email,
-          password: this.password,
-          password_confirmation: this.confirmPassword,
-        })
-        .then(() => {
+      register(this.name, this.email, this.password, this.confirmPassword)
+        .then((res) => {
+          console.log(res)
           this.$bvToast.show("register-success");
           this.$router.push("./");
         })

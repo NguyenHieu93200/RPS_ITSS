@@ -35,7 +35,7 @@
   </div>
 </template>
 <script>
-import axios from "axios";
+import { getRankList } from '../api/rank';
 
 export default {
   data() {
@@ -49,13 +49,9 @@ export default {
   },
   methods: {
     getRankings() {
-      const config = {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      };
-      axios
-        .get(`http://127.0.0.1:8000/api/v1/rank/list`, config)
+      getRankList()
         .then((response) => {
-          this.players = response.data.data;
+          this.players = response.data;
         })
         .catch((e) => {
           this.errors.push(e);

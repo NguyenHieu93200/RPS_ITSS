@@ -54,7 +54,7 @@
   </div>
 </template>
 <script>
-import axios from "axios";
+import { getComments, postComment, deleteCmt } from '../api/comment';
 
 export default {
   data() {
@@ -73,27 +73,16 @@ export default {
   },
   methods: {
     getComment() {
-      const config = {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      };
-      axios
-        .get(`http://127.0.0.1:8000/api/v1/comment`, config)
+      getComments()
         .then((response) => {
-          this.comments = response.data;
+          this.comments = response;
         })
         .catch((e) => {
           this.errors.push(e);
         });
     },
     postComment() {
-      const config = {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      };
-      const body = {
-        content: this.newComment,
-      };
-      axios
-        .post(`http://127.0.0.1:8000/api/v1/comment`, body, config)
+      postComment(this.newComment)
         .then(() => {
           this.newComment = "";
           this.getComment();
@@ -103,14 +92,7 @@ export default {
         });
     },
     deleteComment(commentId) {
-      const config = {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      };
-      axios
-        .delete(
-          `http://127.0.0.1:8000/api/v1/comment/delete/${commentId}`,
-          config
-        )
+      deleteCmt(commentId)
         .then(() => {
           this.getComment();
         })
