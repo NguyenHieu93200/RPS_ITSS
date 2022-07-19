@@ -50,13 +50,12 @@ export default {
   },
   async created() {
     const res = await getRankList()
-    this.data = res.data.filter(data => data.user).map(data => {
+    this.data = res.data.map(data => {
       return {
         ...data,
-        name: data.user.name
+        name: data.name
       }
     })
-    console.log(this.data)
   },
   computed: {
     players() {
