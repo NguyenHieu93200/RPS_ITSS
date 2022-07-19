@@ -50,13 +50,14 @@
 </template>
 
 <script>
-import axios from "axios";
+import { getUserInfo } from "../api/user";
+import { logout } from '../api/authentication';
 
 export default {
   data() {
     return {
-      email: "hieu@gmail.com",
-      name: "hieu",
+      email: "",
+      name: "",
     };
   },
   methods: {
@@ -71,18 +72,19 @@ export default {
       console.log("save");
     },
     logOut() {
-      const config = {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      };
-      const body = {};
-      axios
-        .post(`http://127.0.0.1:8000/api/v1/auth/logout`, body, config)
+      logout()
         .then(this.$router.push("/login"))
         .catch((e) => {
           this.errors.push(e);
         });
     },
   },
+  async created() {
+    const id = localStorage.getItem("userId")
+    const userInfo = await getUserInfo(id)
+    this.email = userInfo.email
+    this.name = userInfo.name
+  }
 };
 </script>
 <style scoped>

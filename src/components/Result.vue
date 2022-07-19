@@ -36,7 +36,7 @@
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
-import axios from "axios";
+import { putScore } from "../api/score";
 
 export default {
   data() {
@@ -53,14 +53,7 @@ export default {
   methods: {
     ...mapActions(["replayGame"]),
     updateScore() {
-      const config = {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      };
-      const body = {
-        score: this.getScore,
-      };
-      axios
-        .put(`http://127.0.0.1:8000/api/v1/score/store`, body, config)
+      putScore(this.getScore)
         .then((response) => {
           console.log(response);
         })
