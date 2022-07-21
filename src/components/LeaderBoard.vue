@@ -28,9 +28,7 @@
       <div class="w-9/12 flex justify-between score-player">
         <div class="flex">
           <img
-            :src="
-              player.avatar != null ? player.avatar : '../assets/avatar.png'
-            "
+            :src="player.avatar != null ? player.avatar : imgUrl(`avatar.png`)"
             class="w-10 h-10 rounded-full mr-4"
           />
           <span class="center">{{ player.name }}</span>
@@ -42,6 +40,7 @@
 </template>
 <script>
 import { getRankList } from "../api/rank";
+var images = require.context("../assets/", false, /\.png$/);
 
 export default {
   data() {
@@ -68,6 +67,11 @@ export default {
           !this.search ||
           data.name.toLowerCase().includes(this.search.toLowerCase())
       );
+    },
+  },
+  methods: {
+    imgUrl: function (path) {
+      return images("./" + path);
     },
   },
 };
