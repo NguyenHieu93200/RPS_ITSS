@@ -3,8 +3,7 @@
     class="
       px-4
       py-3
-      md:px-6
-      md:py-5
+      md:px-6 md:py-5
       bg-white
       w-1/4
       m-auto
@@ -28,7 +27,12 @@
       </div>
       <div class="w-9/12 flex justify-between score-player">
         <div class="flex">
-          <img src="../assets/avatar.png" class="w-10 h-10 rounded-full mr-4" />
+          <img
+            :src="
+              player.avatar != null ? player.avatar : '../assets/avatar.png'
+            "
+            class="w-10 h-10 rounded-full mr-4"
+          />
           <span class="center">{{ player.name }}</span>
         </div>
         <div class="mr-4 center">{{ player.score }}</div>
@@ -37,30 +41,34 @@
   </div>
 </template>
 <script>
-import { getRankList } from '../api/rank';
+import { getRankList } from "../api/rank";
 
 export default {
   data() {
     return {
       showModal: false,
       // players: [],
-      search: '',
-      data: []
+      search: "",
+      data: [],
     };
   },
   async created() {
-    const res = await getRankList()
-    this.data = res.data.map(data => {
+    const res = await getRankList();
+    this.data = res.data.map((data) => {
       return {
         ...data,
-        name: data.name
-      }
-    })
+        name: data.name,
+      };
+    });
   },
   computed: {
     players() {
-      return this.data.filter(data => !this.search || data.name.toLowerCase().includes(this.search.toLowerCase()))
-    }
+      return this.data.filter(
+        (data) =>
+          !this.search ||
+          data.name.toLowerCase().includes(this.search.toLowerCase())
+      );
+    },
   },
 };
 </script>
