@@ -16,52 +16,57 @@
   >
     <el-table
       v-loading="loading"
-      :data="items.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
-      style="width: 100%">
-      <el-table-column
-        label="ID"
-        prop="id">
+      :data="
+        data_render.filter(
+          (data) =>
+            !search || data.name.toLowerCase().includes(search.toLowerCase())
+        )
+      "
+      style="width: 100%"
+    >
+      <el-table-column label="ID" prop="id"> </el-table-column>
+      <el-table-column label="名前" prop="name"> </el-table-column>
+      <el-table-column label="メールアドレス" prop="mail"> </el-table-column>
+      <el-table-column sortable label="スコア" prop="score"> </el-table-column>
+      <el-table-column sortable label="ランキング" prop="ranking">
       </el-table-column>
-      <el-table-column
-        label="名前"
-        prop="name">
-      </el-table-column>
-      <el-table-column
-        label="メールアドレス"
-        prop="mail">
-      </el-table-column>
-      <el-table-column
-        sortable
-        label="スコア"
-        prop="score">
-      </el-table-column>
-      <el-table-column
-        sortable
-        label="ランキング"
-        prop="ranking">
-      </el-table-column>
-      <el-table-column
-        align="right">
+      <el-table-column align="right">
         <template slot="header" slot-scope="scope">
           <el-input
             v-model="search"
             size="mini"
             :scope="scope"
-            placeholder="Type to search"/>
+            placeholder="Type to search"
+          />
         </template>
         <template slot-scope="scope">
           <el-button
             size="mini"
             type="danger"
-            @click="handleDelete(scope.$index, scope.row)">削除</el-button>
+            @click="handleDelete(scope.$index, scope.row)"
+            >削除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination
+      background
+      layout="prev, pager, next"
+      :total="
+        items.filter(
+          (data) =>
+            !search || data.name.toLowerCase().includes(search.toLowerCase())
+        ).length
+      "
+      :page-size="limit"
+      @current-change="handleOnChangePage"
+    >
+    </el-pagination>
   </div>
 </template>
 
 <script>
-import { getUsers,deleteUser } from '../api/user';
+import { getUsers, deleteUser } from "../api/user";
 export default {
   data: () => ({
     heading: "Regular Tables",
@@ -76,39 +81,52 @@ export default {
     dark: false,
     fixed: true,
     footClone: false,
-    search: '',
-    loading: false
+    search: "",
+    loading: false,
+    limit: 10,
+    data_render: []
   }),
 
   methods: {
     async handleDelete(index, item) {
-      this.$confirm('これにより、ファイルが完全に削除されます。 継続する？', 'Warning', {
-          confirmButtonText: 'OK',
-          cancelButtonText: 'Cancel',
-          type: 'warning'
-      }).then(async () => {
-        const res = await deleteUser(item.id)
-            if (res) {
-              this.items.splice(index,1)
-              this.$message({
-                message: '正常に削除されました。',
-                type: 'success'
-              });
-            }
-        }).catch(() => {
+      this.$confirm(
+        "これにより、ファイルが完全に削除されます。 継続する？",
+        "Warning",
+        {
+          confirmButtonText: "OK",
+          cancelButtonText: "Cancel",
+          type: "warning",
+        }
+      )
+        .then(async () => {
+          const res = await deleteUser(item.id);
+          if (res) {
+            this.items.splice(index, 1);
+            this.$message({
+              message: "正常に削除されました。",
+              type: "success",
+            });
+          }
+        })
+        .catch(() => {
           this.$message({
-            type: 'info',
-            message: '削除がキャンセルされました'
-          });          
+            type: "info",
+            message: "削除がキャンセルされました",
+          });
         });
-    }
+    },
+    handleOnChangePage(currentPage) {
+      var page_form = (currentPage - 1) * this.limit;
+      this.data_render = this.items.slice(page_form, page_form + this.limit);
+    },
   },
   async created() {
-    this.loading = true
-    const res = await getUsers()
-    this.items = res.data
-    this.loading = false
-  }
+    this.loading = true;
+    const res = await getUsers();
+    this.items = res.data;
+    this.data_render = this.items.slice(0, this.limit)
+    this.loading = false;
+  },
 };
 </script>
 <style lang="css">
