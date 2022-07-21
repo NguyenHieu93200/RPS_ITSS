@@ -57,25 +57,31 @@ export default {
       email: "",
       name: "",
       url: "",
+      file: null,
+      src: null,
     };
   },
   methods: {
     onChange(e) {
       if (!e.target.files.length) return;
-      let file = e.target.files[0];
+      this.file = e.target.files[0];
       // console.log(file);
       let reader = new FileReader();
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(this.file);
       reader.onload = (e) => {
-        let src = e.target.result;
+        this.src = e.target.result;
         // console.log(src);
-        this.$emit("loaded", { src, file });
+        // this.$emit("loaded", { src, this.file });
       };
     },
     async saveUserInfo() {
       try {
         const id = localStorage.getItem("userId");
-        const res = await updateUser(id, { name: this.name, avatar: this.url });
+        const res = await updateUser(id, {
+          name: this.name,
+          avatar_file: this.file,
+          avatar_src: this.src,
+        });
         if (res) {
           this.$message({
             message: "編集できました！",
