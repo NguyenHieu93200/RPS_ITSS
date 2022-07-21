@@ -3,8 +3,7 @@
     class="
       px-4
       py-3
-      md:px-6
-      md:py-5
+      md:px-6 md:py-5
       bg-white
       w-1/4
       m-auto
@@ -44,6 +43,7 @@
     <b-button class="mt-4 border-2 text-xl p-4 save-btn" @click="saveUserInfo"
       >Save</b-button
     >
+    <input type="file" accept="image/*" @change="onChange" />
   </div>
 </template>
 
@@ -60,12 +60,17 @@ export default {
     };
   },
   methods: {
-    UploadAvatar() {
-      const input = this.$refs.fileInputAvatar;
-      const files = input.files;
-      if (files && files[0]) {
-        console.log(files[0]);
-      }
+    onChange(e) {
+      if (!e.target.files.length) return;
+      let file = e.target.files[0];
+      // console.log(file);
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (e) => {
+        let src = e.target.result;
+        // console.log(src);
+        this.$emit("loaded", { src, file });
+      };
     },
     async saveUserInfo() {
       try {
