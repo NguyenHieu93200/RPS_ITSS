@@ -23,7 +23,7 @@
         />
         <div class="comment drop-shadow-md shadow-lg rounded-br-lg p-3 w-4/5">
           <div class="flex justify-between">
-            <div>{{ comment.user }}</div>
+            <div>{{ comment.name }}</div>
             <div id="timestamp">
               {{ $dayjs(comment.created_at).format("MM-DD-YYYY H:mm A") }}
             </div>
