@@ -6,7 +6,7 @@
       md:px-6
       md:py-5
       bg-white
-      w-1/4
+      w-1/3
       m-auto
       border
       items-center
@@ -14,6 +14,7 @@
       md:rounded-2xl
       relative
     "
+    v-loading="loading"
   >
     <b-button
       class="border-2 text-xl p-4 save-btn absolute top-3 right-3"
@@ -23,10 +24,10 @@
     <div class="text-2xl text-center">プロファイル</div>
     <div>
       <div class="block text-center" style="padding: 10px">
-        <el-avatar shape="square" :size="100" :src="url"></el-avatar>
+        <el-avatar shape="square" :size="250" :src="avatar_url"></el-avatar>
       </div>
     </div>
-    <div class="mt-4">
+    <!-- <div class="mt-4">
       <span class="text-lg font-bold">メール: </span>
       <b-form-input v-model="email" disabled></b-form-input>
     </div>
@@ -43,7 +44,21 @@
     </div>
     <b-button class="mt-4 border-2 text-xl p-4 save-btn" @click="saveUserInfo"
       >編集</b-button
-    >
+    > -->
+    <el-form label-position="left" ref="form" label-width="120px">
+      <el-form-item label="名前：">
+        <el-input v-model="name"></el-input>
+      </el-form-item>
+      <el-form-item label="メール：">
+        <el-input v-model="email" disabled></el-input>
+      </el-form-item>
+      <el-form-item label="Avatar_URL：">
+        <el-input v-model="url"></el-input>
+      </el-form-item>
+    </el-form>
+    <div class="text-center">
+      <el-button type="primary" @click="saveUserInfo">編集</el-button>
+    </div>
   </div>
 </template>
 
@@ -57,6 +72,8 @@ export default {
       email: "",
       name: "",
       url: "",
+      avatar_url: "",
+      loading: false,
     };
   },
   methods: {
@@ -68,6 +85,7 @@ export default {
       }
     },
     async saveUserInfo() {
+      this.loading = true;
       try {
         const id = localStorage.getItem("userId");
         const res = await updateUser(id, { name: this.name, avatar: this.url });
@@ -83,6 +101,7 @@ export default {
           type: "error",
         });
       }
+      this.loading = false;
     },
     logOut() {
       logout()
@@ -92,12 +111,19 @@ export default {
         });
     },
   },
+  watch: {
+    url(val) {
+      this.avatar_url = val;
+    },
+  },
   async created() {
+    this.loading = true;
     const id = localStorage.getItem("userId");
     const userInfo = await getUserInfo(id);
     this.email = userInfo.email;
     this.name = userInfo.name;
     if (userInfo.avatar) this.url = userInfo.avatar;
+    this.loading = false;
   },
 };
 </script>

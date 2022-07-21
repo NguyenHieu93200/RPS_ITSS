@@ -25,8 +25,8 @@
       style="width: 100%"
     >
       <el-table-column label="ID" prop="id"> </el-table-column>
-      <el-table-column label="名前" prop="name"> </el-table-column>
-      <el-table-column label="メールアドレス" prop="email"> </el-table-column>
+      <el-table-column label="名前" prop="name" width="250"> </el-table-column>
+      <el-table-column label="メールアドレス" prop="email" width="250"> </el-table-column>
       <el-table-column sortable label="スコア" prop="score"> </el-table-column>
       <!-- <el-table-column sortable label="ランキング" prop="ranking">
       </el-table-column> -->
