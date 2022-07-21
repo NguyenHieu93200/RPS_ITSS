@@ -84,7 +84,7 @@ export default {
     search: "",
     loading: false,
     limit: 10,
-    data_render: []
+    data_render: [],
   }),
 
   methods: {
@@ -123,8 +123,13 @@ export default {
   async created() {
     this.loading = true;
     const res = await getUsers();
-    this.items = res.data;
-    this.data_render = this.items.slice(0, this.limit)
+    this.items = res.data.map((e) => {
+      return {
+        ...e,
+        score: e.score ? e.score : 0,
+      };
+    });
+    this.data_render = this.items.slice(0, this.limit);
     this.loading = false;
   },
 };
