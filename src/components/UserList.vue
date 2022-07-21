@@ -36,11 +36,6 @@
         prop="score">
       </el-table-column>
       <el-table-column
-        sortable
-        label="ランキング"
-        prop="ranking">
-      </el-table-column>
-      <el-table-column
         align="right">
         <template slot="header" slot-scope="scope">
           <el-input
