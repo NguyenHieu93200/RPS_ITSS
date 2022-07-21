@@ -14,7 +14,7 @@
       md:rounded-2xl
     "
   >
-    <h1 class="pb-3 mb-8 text-center text-5xl border-b-2">Leaderboard</h1>
+    <h1 class="pb-3 mb-8 text-center text-5xl border-b-2">ランキング</h1>
     <el-input placeholder="名前で検索" v-model="search"></el-input>
 
     <!-- content -->

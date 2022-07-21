@@ -3,7 +3,7 @@
     <div class="login" :class="signUpChange ? '' : 'slide-up'">
       <div class="center">
         <h2 class="form-title" id="login" @click="toSignUp">
-          <span>or</span>Log in
+          <span>or</span>ログイン
         </h2>
         <div class="form-holder">
           <input
@@ -19,12 +19,12 @@
             placeholder="Password"
           />
         </div>
-        <button class="submit-btn" @click="Login">Log in</button>
+        <button class="submit-btn" @click="Login">ログイン</button>
       </div>
     </div>
     <div class="signup" :class="signUpChange ? 'slide-up' : ''">
       <h2 class="form-title" id="signup" @click="toLogin">
-        <span>or</span>Sign up
+        <span>or</span>サインアップ
       </h2>
       <div class="form-holder">
         <input v-model="name" type="text" class="input" placeholder="Name" />

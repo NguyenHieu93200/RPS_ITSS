@@ -26,10 +26,10 @@
     >
       <el-table-column label="ID" prop="id"> </el-table-column>
       <el-table-column label="名前" prop="name"> </el-table-column>
-      <el-table-column label="メールアドレス" prop="mail"> </el-table-column>
+      <el-table-column label="メールアドレス" prop="email"> </el-table-column>
       <el-table-column sortable label="スコア" prop="score"> </el-table-column>
-      <el-table-column sortable label="ランキング" prop="ranking">
-      </el-table-column>
+      <!-- <el-table-column sortable label="ランキング" prop="ranking">
+      </el-table-column> -->
       <el-table-column align="right">
         <template slot="header" slot-scope="scope">
           <el-input

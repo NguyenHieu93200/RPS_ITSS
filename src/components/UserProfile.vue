@@ -18,20 +18,20 @@
     <b-button
       class="border-2 text-xl p-4 save-btn absolute top-3 right-3"
       @click="logOut"
-      >Log out</b-button
+      >ログアウト</b-button
     >
-    <div class="text-2xl text-center">User Profile</div>
+    <div class="text-2xl text-center">プロファイル</div>
     <div>
       <div class="block text-center" style="padding: 10px">
         <el-avatar shape="square" :size="100" :src="url"></el-avatar>
       </div>
     </div>
     <div class="mt-4">
-      <span class="text-lg font-bold">Email: </span>
+      <span class="text-lg font-bold">メール: </span>
       <b-form-input v-model="email" disabled></b-form-input>
     </div>
     <div>
-      <span class="text-lg font-bold">Name: </span>
+      <span class="text-lg font-bold">名前: </span>
       <b-form-input v-model="name" placeholder="Enter your name"></b-form-input>
     </div>
     <div>
@@ -42,7 +42,7 @@
       ></b-form-input>
     </div>
     <b-button class="mt-4 border-2 text-xl p-4 save-btn" @click="saveUserInfo"
-      >Save</b-button
+      >編集</b-button
     >
   </div>
 </template>
