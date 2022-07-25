@@ -2,7 +2,7 @@
   <div class="flex mt-16 pb-20 flex-col relative">
     <div
       class="absolute -top-10 md:-top-16 -left-0 md:-left-10"
-      @click="setHand('paper')"
+      @click.once="setHand('paper')"
     >
       <hand class="paper">
         <img slot="handImage" src="../assets/img/icon-paper.svg" alt="paper" />
@@ -11,7 +11,7 @@
     </div>
     <div
       class="absolute -top-10 md:-top-16 -right-0 md:-right-10"
-      @click="setHand('scissors')"
+      @click.once="setHand('scissors')"
     >
       <hand class="scissors">
         <img
@@ -24,7 +24,7 @@
     </div>
     <div
       class="absolute bottom-20 md:bottom-16 rock-par"
-      @click="setHand('rock')"
+      @click.once="setHand('rock')"
     >
       <hand class="rock">
         <img

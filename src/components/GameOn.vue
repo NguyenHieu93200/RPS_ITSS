@@ -49,7 +49,7 @@
           {{ getResult }}
         </h1>
         <button
-          v-if="getRound === 2"
+          v-if="getRound === 10"
           @click="setFinalResult"
           class="bg-white text-lg score uppercase hover:text-red-400 px-10 py-2"
         >

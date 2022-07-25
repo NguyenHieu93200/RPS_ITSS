@@ -3,8 +3,7 @@
     class="
       px-4
       py-3
-      md:px-6
-      md:py-5
+      md:px-6 md:py-5
       bg-white
       w-1/4
       m-auto
@@ -18,10 +17,13 @@
     <!-- content -->
     <div class="overflow-auto max-h-96">
       <div v-for="comment in comments" :key="comment.id" class="flex mt-4">
-        <img src="../assets/avatar.png" class="w-10 h-10 rounded-full mr-4" />
+        <img
+          :src="comment.avatar != null ? comment.avatar : imgUrl(`avatar.png`)"
+          class="w-10 h-10 rounded-full mr-4"
+        />
         <div class="comment drop-shadow-md shadow-lg rounded-br-lg p-3 w-4/5">
           <div class="flex justify-between">
-            <div>{{ comment.user }}</div>
+            <div>{{ comment.name }}</div>
             <div id="timestamp">
               {{ $dayjs(comment.created_at).format("MM-DD-YYYY H:mm A") }}
             </div>
@@ -54,7 +56,8 @@
   </div>
 </template>
 <script>
-import { getComments, postComment, deleteCmt } from '../api/comment';
+import { getComments, postComment, deleteCmt } from "../api/comment";
+var images = require.context("../assets/", false, /\.png$/);
 
 export default {
   data() {
@@ -72,10 +75,13 @@ export default {
     this.getComment();
   },
   methods: {
+    imgUrl: function (path) {
+      return images("./" + path);
+    },
     getComment() {
       getComments()
         .then((response) => {
-          this.comments = response;
+          this.comments = response.data;
         })
         .catch((e) => {
           this.errors.push(e);
