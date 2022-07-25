@@ -49,7 +49,7 @@
 </template>
 <script>
 import { login, register } from '../api/authentication';
-
+// import OneSignalVue from 'onesignal-vue';
 export default {
   data() {
     return {
@@ -92,6 +92,9 @@ export default {
         });
     },
   },
+  created(){
+    this.$OneSignal.showSlidedownPrompt()
+  }
 };
 </script>
 

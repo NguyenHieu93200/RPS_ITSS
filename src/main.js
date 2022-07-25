@@ -4,6 +4,9 @@ import store from "./store";
 import "./index.css";
 
 import BootstrapVue from "bootstrap-vue";
+import OneSignalVue from 'onesignal-vue'
+
+
 
 /* import the fontawesome core */
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -27,6 +30,7 @@ Vue.component("font-awesome-icon", FontAwesomeIcon);
 Vue.config.productionTip = false;
 
 Vue.use(BootstrapVue);
+Vue.use(OneSignalVue);
 
 import Dayjs from "vue-dayjs";
 Vue.use(ElementUI);
@@ -45,4 +49,7 @@ new Vue({
   store,
   router,
   render: (h) => h(App),
+  beforeMount() {
+    this.$OneSignal.init({ appId: '3b592f92-492d-492b-8674-fbb9669f645c' });
+  }
 }).$mount("#app");
